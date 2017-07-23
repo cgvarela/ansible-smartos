@@ -1,0 +1,11 @@
+---
+admin_ip: dhcp
+
+dns_resolvers: 213.133.98.98,213.133.99.99,213.133.100.100
+dns_domain: local
+
+ntp_hosts: 0.de.pool.ntp.org,1.de.pool.ntp.org,2.de.pool.ntp.org
+compute_node_ntp_hosts: dhcp
+
+hostname: ssolution_master
+root_authorized_keys_file: authorized_keys

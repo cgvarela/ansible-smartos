@@ -1,0 +1,23 @@
+---
+- hosts: all
+  remote_user: root
+  environment:
+    PATH: "/opt/local/sbin:/opt/local/bin:{{
+      (ansible_env|default({})).PATH|default('/usr/bin:/usr/sbin') }}"
+  vars:
+    - ansible_python_interpreter: /opt/local/bin/python
+  tasks:
+    - pkgin: name=python27 state=present
+    - name: Creates directory
+      file:
+        path: /usbkey/config.inc
+        state: directory
+    - name: add authorized_keys
+      copy:
+        src: "templates/root_authorized_keys"
+        dest: "/usbkey/config.inc/authorized_keys"
+        mode: 0600
+    - name: update config
+      template:
+        src: config.j2
+        dest: "/usbkey/config"

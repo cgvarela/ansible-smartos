@@ -1,0 +1,25 @@
+- hosts: all
+  gather_facts: false
+  environment:
+    PATH: "/opt/local/sbin:/opt/local/bin:{{
+      (ansible_env|default({})).PATH|default('/usr/bin:/usr/sbin') }}"
+  vars:
+    - provision_mode: true
+    - smartos_python_path: /opt/local/bin/python
+  post_tasks:
+    # Install python on joyent zones
+    # cd /
+    - block:
+        - name: install pkgin
+          raw: cd / ; curl -k http://pkgsrc.joyent.com/packages/SmartOS/bootstrap/bootstrap-2017Q2-x86_64.tar.gz | gzcat | tar -xf -
+        - name: pkg_admin rebuild
+          raw: pkg_admin rebuild
+        - name: pkgin update
+          raw: pkgin -y up
+        - name: install python
+          raw: pkgin in python27
+        - set_fact: ansible_python_interpreter={{ smartos_python_path }}
+        # - name: Test python install
+        #   setup:
+      rescue:
+        - debug: msg="Unable to install python on joyent zone"
