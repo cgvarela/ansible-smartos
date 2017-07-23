@@ -21,3 +21,15 @@
       template:
         src: config.j2
         dest: "/usbkey/config"
+    - name: update system config
+      shell: sysinfo -u
+    - name: Add a project fifo
+      imgadm:
+        source: 'https://datasets.project-fifo.net'
+        state: present
+    - name: Import fifo aio
+      imgadm:
+        uuid: '1abd7f9e-dee6-48e2-b3b2-1bd19040533a'
+        state: imported
+
+
