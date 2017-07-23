@@ -1,0 +1,3 @@
+[submodule "roles/precurse.smartos_provision"]
+	path = roles/precurse.smartos_provision
+	url = https://github.com/precurse/ansible-smartos_provision
